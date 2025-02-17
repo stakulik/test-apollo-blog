@@ -1,0 +1,17 @@
+FROM node:20.5.1
+
+RUN apt-get update -qq && \
+  apt-get install -y --no-install-recommends \
+    vim \
+    less
+
+RUN apt-get upgrade -y
+
+RUN mkdir /app -p && \
+  chown node /app
+
+WORKDIR /app
+
+COPY package.json /app/package.json
+
+EXPOSE 4000
