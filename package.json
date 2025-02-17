@@ -3,18 +3,25 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "type": "module",
   "scripts": {
     "build": "yarn clean && tsc -p .",
     "clean": "rm -rf dist",
     "start:api": "node ./dist/index.js"
   },
+  "engines": {
+    "node": "20.5.1"
+  },
   "dependencies": {
     "@apollo/server": "4.11.3",
-    "graphql": "16.10.0"
+    "dotenv": "16.4.7",
+    "graphql": "16.10.0",
+    "pg": "8.13.3",
+    "sequelize": "6.37.5"
   },
   "devDependencies": {
+    "@types/graphql": "14.5.0",
     "@types/node": "22.13.4",
+    "@types/sequelize": "4.28.20",
     "typescript": "5.7.3"
   }
 }
