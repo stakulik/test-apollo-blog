@@ -2,5 +2,19 @@
   "name": "test-apollo-blog",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "yarn clean && tsc -p .",
+    "clean": "rm -rf dist",
+    "start:api": "node ./dist/index.js"
+  },
+  "dependencies": {
+    "@apollo/server": "4.11.3",
+    "graphql": "16.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.13.4",
+    "typescript": "5.7.3"
+  }
 }
