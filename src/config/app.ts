@@ -23,6 +23,11 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 export default {
+  database: {
+    url: process.env.DATABASE_URL,
+    poolMax: Number.parseInt(process.env.DATABASE_POOL_MAX!, 10) || 5,
+    sslOff: process.env.DATABASE_SSL_OFF === 'true',
+  },
   server: {
     port: Number.parseInt((process.env.PORT || '4000'), 10),
   },
