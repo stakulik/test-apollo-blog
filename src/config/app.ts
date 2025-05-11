@@ -28,6 +28,9 @@ export default {
     poolMax: Number.parseInt(process.env.DATABASE_POOL_MAX!, 10) || 5,
     sslOff: process.env.DATABASE_SSL_OFF === 'true',
   },
+  jwt: {
+    secret: process.env.JWT_SECRET || '',
+  },
   server: {
     port: Number.parseInt((process.env.PORT || '4000'), 10),
   },

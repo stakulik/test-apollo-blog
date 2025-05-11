@@ -11,9 +11,9 @@ const validate = async (params) => {
     throwUserInputError('Email has wrong value', 'email');
   }
 
-  const credentialsTaken = await userService.credentialsTaken({ email, nickname });
+  const isCredentialsTaken = await userService.isCredentialsTaken({ email, nickname });
 
-  if (credentialsTaken) {
+  if (isCredentialsTaken) {
     throwUserInputError('Email or nickname has already been taken');
   }
 };

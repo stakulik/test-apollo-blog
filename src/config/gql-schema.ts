@@ -9,6 +9,11 @@ export const GQLSchema = `
   }
 
   type Mutation {
+    signIn(
+      email: String!
+      password: String!
+    ): String
+
     signUp(
       email: String!
       nickname: String!
