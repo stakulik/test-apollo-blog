@@ -7,4 +7,12 @@ export const GQLSchema = `
     getPost: Post
     listPosts: [Post]
   }
+
+  type Mutation {
+    signUp(
+      email: String!
+      nickname: String!
+      password: String!
+    ): Boolean!
+  }
 `;

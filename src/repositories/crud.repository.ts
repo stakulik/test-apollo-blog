@@ -13,7 +13,13 @@ export class CrudRepository extends CoreRepository {
     return this[_model];
   }
 
-  async getById(id, options = {}) {
+  async create(data, options) {
+    const queryOptions = filterQueryOptions(options);
+
+    return this.model.create(data, queryOptions);
+  }
+
+  async getById(id, options) {
     const queryOptions = filterQueryOptions(options);
 
     return this.model.findByPk(id, queryOptions);
