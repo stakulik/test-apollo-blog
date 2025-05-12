@@ -4,11 +4,17 @@ export const GQLSchema = `
   "Implementing DateTime field type to show date fields"
   scalar DateTime
 
+  type Author {
+    id: UUID!
+    nickname: String!
+  }
+
   type Post {
     id: UUID!
     title: String!
     body: String!
     published_at: DateTime!
+    author: Author!
   }
 
   type Query {

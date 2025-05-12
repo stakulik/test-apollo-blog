@@ -19,6 +19,15 @@ export class CrudRepository extends CoreRepository {
     return this.model.create(data, queryOptions);
   }
 
+  async find(conditions, options) {
+    const queryOptions = filterQueryOptions(options);
+
+    return this.model.findAll({
+      where: conditions,
+      ...queryOptions,
+    });
+  }
+
   async getByCriteria<T = Record<string, unknown>>(criteria: T, options) {
     const queryOptions = filterQueryOptions(options);
 

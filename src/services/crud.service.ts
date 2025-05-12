@@ -26,6 +26,10 @@ export class CrudService extends CoreService {
     return this.repository.create(data, options);
   }
 
+  async find(conditions, options = {}) {
+    return this.repository.find(conditions, options);
+  }
+
   async getByCriteria<T = Record<string, unknown>>(criteria: T, options = {}) {
     return this.repository.getByCriteria(criteria, options);
   }
