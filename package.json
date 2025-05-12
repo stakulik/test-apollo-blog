@@ -20,6 +20,7 @@
     "bcryptjs": "3.0.2",
     "dotenv": "16.4.7",
     "graphql": "16.10.0",
+    "graphql-scalars": "1.24.2",
     "jsonwebtoken": "9.0.2",
     "lodash": "4.17.21",
     "pg": "8.13.3",
