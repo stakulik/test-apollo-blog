@@ -1,6 +1,5 @@
 import { PostService } from '../../services';
-
-import { authRequest } from '../helpers';
+import { authRequest } from '../shared';
 
 const postService = new PostService();
 

@@ -1,6 +1,6 @@
 import { throwUserInputError } from '../../lib/gql';
 import { PostService } from '../../services';
-import { authRequest, getUserFromContext } from '../helpers';
+import { authRequest, getUserFromContext } from '../shared';
 
 const postService = new PostService();
 

@@ -1,6 +1,6 @@
 import { throwUserInputError } from '../../lib/gql';
 import { UserService } from '../../services';
-import { isEmail } from '../helpers';
+import { isEmail } from '../shared';
 
 const userService = new UserService();
 

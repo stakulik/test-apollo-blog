@@ -1,4 +1,4 @@
-import { throwAuthenticationError } from '../../lib/gql';
+import { throwAuthenticationError } from '../../../lib/gql';
 
 export function authRequest(asyncResolver) {
   return (parent, params, context, info) => {

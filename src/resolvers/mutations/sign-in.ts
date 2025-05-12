@@ -1,6 +1,6 @@
 import { throwUserInputError } from '../../lib/gql';
 import { AuthTokenService, UserService } from '../../services';
-import { isEmail, isValidForPassword } from '../helpers';
+import { isEmail, isValidForPassword } from '../shared';
 
 const authTokenService = new AuthTokenService();
 const userService = new UserService();
