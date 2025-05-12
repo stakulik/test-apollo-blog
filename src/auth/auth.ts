@@ -2,8 +2,8 @@ import * as authentication from 'auth-header';
 import type { IncomingMessage } from 'http';
 
 import { UserService } from '../services';
-import { JWT } from '../lib/jwt';
-import { appConfig } from '../config';
+
+import { parseJWT } from './shared';
 
 const userService = new UserService();
 
@@ -21,7 +21,7 @@ export class Auth {
       return null;
     }
 
-    const payload = JWT.parse(token, appConfig.jwt.secret);
+    const payload = parseJWT(token);
 
     if (!payload) {
       return null;
