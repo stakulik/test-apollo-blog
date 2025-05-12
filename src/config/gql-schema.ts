@@ -5,7 +5,10 @@ export const GQLSchema = `
   scalar DateTime
 
   type Post {
-    title: String
+    id: UUID!
+    title: String!
+    body: String!
+    published_at: DateTime!
   }
 
   type Query {
@@ -14,6 +17,12 @@ export const GQLSchema = `
   }
 
   type Mutation {
+    createPost(
+      title: String!
+      body: String!
+      published_at: DateTime
+    ): Post!
+
     signIn(
       email: String!
       password: String!

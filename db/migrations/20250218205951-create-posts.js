@@ -14,6 +14,7 @@ module.exports = {
       published_at: {
         type: Sequelize.DATE,
         allowNull: false,
+        defaultValue: Sequelize.literal('clock_timestamp()'),
       },
       title: {
         type: Sequelize.STRING,

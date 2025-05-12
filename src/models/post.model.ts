@@ -25,6 +25,7 @@ export class Post
       published_at: {
         type: DataTypes.DATE,
         allowNull: false,
+        defaultValue: Sequelize.literal('clock_timestamp()'),
       },
       title: {
         type: DataTypes.STRING,
@@ -33,16 +34,6 @@ export class Post
       user_id: {
         type: DataTypes.UUID,
         allowNull: false,
-      },
-      created_at: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal('clock_timestamp()'),
-      },
-      updated_at: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal('clock_timestamp()'),
       },
     }, modelInitOptions);
 
