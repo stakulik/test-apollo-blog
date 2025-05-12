@@ -11,7 +11,7 @@ export class AuthTokenService extends CrudService {
   async create(data, options = {}) {
     const { user } = data;
 
-    const payload = { user: { email: user.email } };
+    const payload = { user_data: { email: user.email } };
 
     const token = generateJWT(payload);
 

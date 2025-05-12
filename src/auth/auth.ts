@@ -1,15 +1,17 @@
 import * as authentication from 'auth-header';
-import type { Request } from 'express';
+import type { IncomingMessage } from 'http';
 
-import JWT from './jwt';
-
+import { UserService } from '../services';
+import { JWT } from '../lib/jwt';
 import { appConfig } from '../config';
 
-export class Auth {
-  request: Request;
+const userService = new UserService();
 
-  constructor(req: Request) {
-    this.request = req;
+export class Auth {
+  request: IncomingMessage;
+
+  constructor(request: IncomingMessage) {
+    this.request = request;
   }
 
   private async getUserDataFromToken(
@@ -25,11 +27,9 @@ export class Auth {
       return null;
     }
 
-    const { email } = payload.user_data;
+    const email = payload?.user_data?.email;
 
-    const user: User = await User.findOne({
-      where: { email },
-    });
+    const user = await userService.getByCriteria({ email });
 
     if (user) {
       return { user };

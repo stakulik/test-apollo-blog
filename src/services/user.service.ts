@@ -18,7 +18,13 @@ export class UserService extends CrudService {
     return this.repository.create({ ...data, password: encodedPassword }, options);
   }
 
-  async credentialsTaken(data, options = {}) {
+  async isCredentialsCorrect(user, data) {
+    const { password } = data;
+
+    return bcrypt.compare(password, user.password);
+  }
+
+  async isCredentialsTaken(data, options = {}) {
     const queryOptions = filterQueryOptions(options);
 
     const result = await this.modelName.findOne({
