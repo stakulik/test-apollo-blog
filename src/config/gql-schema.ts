@@ -18,7 +18,7 @@ export const GQLSchema = `
   }
 
   type Query {
-    getPost: Post
+    getPost(id: UUID!): Post
     listPosts: [Post]
   }
 
