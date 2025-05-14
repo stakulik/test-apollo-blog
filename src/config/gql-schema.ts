@@ -17,9 +17,19 @@ export const GQLSchema = `
     author: Author!
   }
 
+  type PostsConnection {
+    edges: [Post!]!
+    cursor: String!
+    lastPage: Boolean!
+  }
+
   type Query {
     getPost(id: UUID!): Post
-    listPosts: [Post]
+
+    listPosts(
+      after: String
+      pageSize: Int
+    ): PostsConnection!
   }
 
   type Mutation {
