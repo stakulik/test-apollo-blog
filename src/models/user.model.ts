@@ -1,4 +1,4 @@
-import { DataTypes, Sequelize } from 'sequelize';
+import { DataTypes } from 'sequelize';
 
 import { DefaultModel, modelInitOptions } from './default';
 import { UserAttributes, UserCreationAttributes } from './typings';
@@ -15,6 +15,7 @@ export class User
       id: {
         type: DataTypes.UUID,
         primaryKey: true,
+        allowNull: false,
         defaultValue: DataTypes.UUIDV4,
       },
       email: {
@@ -28,16 +29,6 @@ export class User
       password: {
         type: DataTypes.STRING,
         allowNull: false,
-      },
-      created_at: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal('clock_timestamp()'),
-      },
-      updated_at: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal('clock_timestamp()'),
       },
     }, modelInitOptions);
 

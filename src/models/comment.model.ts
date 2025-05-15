@@ -1,4 +1,4 @@
-import { DataTypes, Sequelize } from 'sequelize';
+import { DataTypes } from 'sequelize';
 
 import { DefaultModel, modelInitOptions } from './default';
 import { CommentAttributes, CommentCreationAttributes } from './typings';
@@ -9,12 +9,14 @@ export class Comment
   declare body: string;
   declare published_at: Date;
   declare user_id: string;
+  declare post_id: string;
 
   static initialize() {
     this.init({
       id: {
         type: DataTypes.UUID,
         primaryKey: true,
+        allowNull: false,
         defaultValue: DataTypes.UUIDV4,
       },
       body: {
@@ -29,15 +31,9 @@ export class Comment
         type: DataTypes.UUID,
         allowNull: false,
       },
-      created_at: {
-        type: DataTypes.DATE,
+      post_id: {
+        type: DataTypes.UUID,
         allowNull: false,
-        defaultValue: Sequelize.literal('clock_timestamp()'),
-      },
-      updated_at: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal('clock_timestamp()'),
       },
     }, modelInitOptions);
 

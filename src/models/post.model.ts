@@ -16,6 +16,7 @@ export class Post
       id: {
         type: DataTypes.UUID,
         primaryKey: true,
+        allowNull: false,
         defaultValue: DataTypes.UUIDV4,
       },
       body: {
