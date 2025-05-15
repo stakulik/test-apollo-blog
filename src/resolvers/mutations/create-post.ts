@@ -1,10 +1,12 @@
 import { throwUserInputError } from '../../lib/gql';
+import { Post } from '../../models';
 import { PostService } from '../../services';
 import { authRequest, getUserFromContext } from '../shared';
+import { AuthedResolverContext, CreatePost } from '../typings';
 
 const postService = new PostService();
 
-const validate = (params) => {
+const validate = (params: CreatePost): void => {
   const { title, body } = params;
 
   if (!title.length || !body.length) {
@@ -14,9 +16,9 @@ const validate = (params) => {
 
 const createPostMutation = async (
   _parent,
-  params,
-  context,
-) => {
+  params: CreatePost,
+  context: AuthedResolverContext,
+): Promise<Post | null> => {
   validate(params);
 
   const user = getUserFromContext(context);

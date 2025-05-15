@@ -2,14 +2,15 @@
 import { throwUserInputError } from '../../lib/gql';
 import { PostService } from '../../services';
 import { authRequest } from '../shared';
+import { ListPosts, PostsConnection } from '../typings';
 
 const postService = new PostService();
 
 const listPostsQuery = async (
   _parent,
-  params,
-) => {
-  let result;
+  params: ListPosts,
+): Promise<PostsConnection> => {
+  let result: PostsConnection | undefined;
 
   try {
     result = await postService.list(params);

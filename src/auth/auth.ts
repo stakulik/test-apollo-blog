@@ -1,7 +1,9 @@
 import * as authentication from 'auth-header';
 import type { IncomingMessage } from 'http';
 
+import { User } from '../models';
 import { UserService } from '../services';
+import { UserData } from '../lib/shared';
 
 import { parseJWT } from './shared';
 
@@ -14,9 +16,9 @@ export class Auth {
     this.request = request;
   }
 
-  private async getUserDataFromToken(
+  private async getAuthDataFromToken(
     token: string | null,
-  ) {
+  ): Promise<UserData | null> {
     if (typeof token !== 'string') {
       return null;
     }
@@ -29,7 +31,7 @@ export class Auth {
 
     const email = payload?.user_data?.email;
 
-    const user = await userService.getByCriteria({ email });
+    const user = await userService.getByCriteria<User>({ email });
 
     if (user) {
       return { user };
@@ -54,7 +56,7 @@ export class Auth {
     return auth.token;
   }
 
-  async getUserData() {
+  async getAuthData(): Promise<UserData | null> {
     try {
       const headerValue = this.request.headers.authorization;
 
@@ -64,7 +66,7 @@ export class Auth {
         return null;
       }
 
-      const userData = await this.getUserDataFromToken(authToken);
+      const userData = await this.getAuthDataFromToken(authToken);
 
       if (!userData) {
         return null;

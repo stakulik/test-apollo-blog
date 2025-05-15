@@ -1,11 +1,13 @@
 import _ from 'lodash';
 
+import { CursorPayload, ListPostsParams } from '../../typings';
+
 import { defaultPageSize } from './default-page-size.constants';
 import { PaginationCursor } from './pagination-cursor';
 
 const decodeCursor = (
   cursor?: string,
-) => {
+): CursorPayload => {
   if (cursor) {
     return PaginationCursor.decode(cursor);
   }
@@ -14,9 +16,9 @@ const decodeCursor = (
 };
 
 export const getCursorContent = (
-  isFirstSearch,
-  params,
-) => {
+  isFirstSearch: boolean,
+  params: ListPostsParams,
+): CursorPayload => {
   if (isFirstSearch) {
     const pageSize = _.isNil(params.pageSize) ? defaultPageSize : params.pageSize;
 

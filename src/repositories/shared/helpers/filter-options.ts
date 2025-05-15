@@ -1,4 +1,9 @@
-export const filterOptions = (source, optionsNodes) => {
+import { QueryOptions } from '../../typings';
+
+export const filterOptions = (
+  source: QueryOptions,
+  optionsNodes: string[],
+): Record<string, unknown> => {
   const accumulator = {};
 
   for (const node of optionsNodes) {

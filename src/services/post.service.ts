@@ -2,10 +2,11 @@ import _ from 'lodash';
 import { QueryTypes } from 'sequelize';
 
 import { sequelize } from '../db';
-import { filterQueryOptions, PostRepository } from '../repositories';
+import { filterQueryOptions, PostRepository, QueryOptions } from '../repositories';
 
 import { getCursorContent, edgeItemTimestamp, PaginationCursor } from './shared';
 import { CrudService } from './crud.service';
+import { ListPostsParams, ListPostsResult, PostListItem } from './typings';
 
 const buildItemsQuery = (
   edgeItemTime?: string,
@@ -77,9 +78,9 @@ export class PostService extends CrudService {
   }
 
   async list(
-    params,
-    options = {},
-  ) {
+    params: ListPostsParams,
+    options: QueryOptions = {},
+  ): Promise<ListPostsResult> {
     const isFirstSearch = !params.after;
 
     const cursorContent = getCursorContent(isFirstSearch, params);
@@ -89,7 +90,7 @@ export class PostService extends CrudService {
     const sqlQuery = buildQuery(edgeItemTime, edgeItemId);
     const queryOptions = filterQueryOptions(options);
 
-    const items = await sequelize.query(
+    const items = await sequelize.query<PostListItem>(
       sqlQuery,
       {
         raw: true,

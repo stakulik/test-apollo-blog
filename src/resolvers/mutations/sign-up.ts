@@ -1,10 +1,11 @@
 import { throwUserInputError } from '../../lib/gql';
 import { UserService } from '../../services';
 import { isEmail } from '../shared';
+import { SignUp } from '../typings';
 
 const userService = new UserService();
 
-const validate = async (params) => {
+const validate = async (params: SignUp): Promise<void> => {
   const { email, nickname } = params;
 
   if (!isEmail(email)) {
@@ -20,8 +21,8 @@ const validate = async (params) => {
 
 const signUpMutation = async (
   _parent,
-  params,
-) => {
+  params: SignUp,
+): Promise<boolean> => {
   await validate(params);
 
   const result = await userService.create(params);

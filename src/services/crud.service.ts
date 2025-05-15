@@ -1,4 +1,9 @@
-import { CrudRepository } from '../repositories';
+import {
+  CreationAttributes,
+  CrudRepository,
+  FindConditions,
+  QueryOptions,
+} from '../repositories';
 
 import { CoreService } from './core.service';
 
@@ -18,23 +23,23 @@ export class CrudService extends CoreService {
     return this[_modelName];
   }
 
-  get repository() {
+  get repository(): InstanceType<typeof CrudRepository> {
     return this[_repository];
   }
 
-  async create(data, options = {}) {
+  async create<M>(data: CreationAttributes, options: QueryOptions = {}): Promise<M | null> {
     return this.repository.create(data, options);
   }
 
-  async find(conditions, options = {}) {
+  async find<M>(conditions: FindConditions, options: QueryOptions = {}): Promise<M[]> {
     return this.repository.find(conditions, options);
   }
 
-  async getByCriteria<T = Record<string, unknown>>(criteria: T, options = {}) {
+  async getByCriteria<M, T = Record<string, unknown>>(criteria: T, options: QueryOptions = {}): Promise<M | null> {
     return this.repository.getByCriteria(criteria, options);
   }
 
-  async getById(id, options = {}) {
+  async getById<M>(id: string, options: QueryOptions = {}): Promise<M | null> {
     return this.repository.getById(id, options);
   }
 }

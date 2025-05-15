@@ -1,7 +1,7 @@
 import { ApolloServerErrorCode } from '@apollo/server/errors';
 import { GraphQLError } from 'graphql';
 
-export function throwAuthenticationError() {
+export function throwAuthenticationError(): never {
   throw new GraphQLError(
     'You must authenticate',
     {

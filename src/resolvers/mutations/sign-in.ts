@@ -1,11 +1,13 @@
 import { throwUserInputError } from '../../lib/gql';
+import { User } from '../../models';
 import { AuthTokenService, UserService } from '../../services';
 import { isEmail, isValidForPassword } from '../shared';
+import { SignIn } from '../typings';
 
 const authTokenService = new AuthTokenService();
 const userService = new UserService();
 
-const validate = async (params) => {
+const validate = async (params: SignIn): Promise<void> => {
   const { email, password } = params;
 
   if (!isEmail(email)) {
@@ -19,13 +21,13 @@ const validate = async (params) => {
 
 const signInMutation = async (
   _parent,
-  params,
-) => {
+  params: SignIn,
+): Promise<string | null> => {
   await validate(params);
 
   const { email } = params;
 
-  const user = await userService.getByCriteria({ email });
+  const user = await userService.getByCriteria<User>({ email });
 
   if (!user) {
     return null;

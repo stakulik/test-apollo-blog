@@ -1,6 +1,7 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 
+import { IncomingRequestContext } from '../lib/shared';
 import { appConfig, GQLSchema } from '../config';
 import { resolvers } from '../resolvers';
 import { Auth } from '../auth';
@@ -13,8 +14,8 @@ export async function startServer() {
 
   const { url } = await startStandaloneServer(server, {
     listen: { port: appConfig.server.port },
-    context: async ({ req }) => {
-      const userData = await new Auth(req).getUserData();
+    context: async ({ req }): Promise<IncomingRequestContext> => {
+      const userData = await new Auth(req).getAuthData();
 
       return {
         userData,

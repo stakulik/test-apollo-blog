@@ -1,18 +1,18 @@
-import jwt from 'jsonwebtoken';
+import jwt, { type JwtPayload } from 'jsonwebtoken';
 
 class JWT {
   static generate(
-    payload: string | Record<string, unknown>,
+    payload: JwtPayload,
     secret: jwt.Secret,
     options?: jwt.SignOptions,
-  ) {
+  ): string {
     return jwt.sign(payload, secret, options);
   }
 
   static parse(
     token: string,
     secret: jwt.Secret,
-  ) {
+  ): string | JwtPayload | null {
     try {
       return jwt.verify(token, secret);
     } catch (err) {

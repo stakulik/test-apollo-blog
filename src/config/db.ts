@@ -1,4 +1,4 @@
-import { default as appConfig } from './app';
+import appConfig from './app';
 
 const { database } = appConfig;
 

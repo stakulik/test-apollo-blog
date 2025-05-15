@@ -1,10 +1,16 @@
+import {
+  CreationAttributes,
+  DataModel,
+  FindConditions,
+  QueryOptions,
+} from './typings';
 import { filterQueryOptions } from './shared';
 import { CoreRepository } from './core.repository';
 
 const _model = Symbol('data model');
 
 export class CrudRepository extends CoreRepository {
-  constructor(model) {
+  constructor(model: DataModel) {
     super();
     this[_model] = model;
   }
@@ -13,30 +19,30 @@ export class CrudRepository extends CoreRepository {
     return this[_model];
   }
 
-  async create(data, options) {
+  async create<M>(data: CreationAttributes, options: QueryOptions): Promise<M | null> {
     const queryOptions = filterQueryOptions(options);
 
-    return this.model.create(data, queryOptions);
+    return this.model.create(data, queryOptions) as Promise<M | null>;
   }
 
-  async find(conditions, options) {
+  async find<M>(conditions: FindConditions, options: QueryOptions): Promise<M[]> {
     const queryOptions = filterQueryOptions(options);
 
     return this.model.findAll({
       where: conditions,
       ...queryOptions,
-    });
+    }) as Promise<M[]>;
   }
 
-  async getByCriteria<T = Record<string, unknown>>(criteria: T, options) {
+  async getByCriteria<M, T = FindConditions>(criteria: T, options: QueryOptions): Promise<M | null> {
     const queryOptions = filterQueryOptions(options);
 
-    return this.model.findOne({ where: criteria, ...queryOptions });
+    return this.model.findOne({ where: criteria, ...queryOptions }) as Promise<M | null>;
   }
 
-  async getById(id, options) {
+  async getById<M>(id: string, options: QueryOptions): Promise<M | null> {
     const queryOptions = filterQueryOptions(options);
 
-    return this.model.findByPk(id, queryOptions);
+    return this.model.findByPk(id, queryOptions) as Promise<M | null>;
   }
 }

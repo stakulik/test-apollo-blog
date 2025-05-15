@@ -1,3 +1,5 @@
+import { CursorPayload } from '../../typings';
+
 export class PaginationCursor {
   static encode(payload): string {
     return Buffer.from(
@@ -6,7 +8,7 @@ export class PaginationCursor {
     ).toString('base64');
   }
 
-  static decode(cursor: string) {
+  static decode(cursor: string): CursorPayload {
     return JSON.parse(
       Buffer.from(cursor, 'base64').toString(),
     );
