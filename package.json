@@ -12,7 +12,7 @@
     "start:api": "node ./dist/index.js"
   },
   "engines": {
-    "node": "20.9.0"
+    "node": "20.5.1"
   },
   "dependencies": {
     "@apollo/server": "4.11.3",
