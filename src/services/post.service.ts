@@ -12,7 +12,7 @@ const buildItemsQuery = (
   edgeItemTime?: string,
   edgeItemId?: string,
 ): string => {
-  const conditions = [];
+  const conditions: string[] = [];
 
   const selectQuery = `
     SELECT
@@ -35,7 +35,7 @@ const buildItemsQuery = (
     `;
 
     conditions.push(
-      `p.published_at < ${edgeItemTimestamp}`,
+      'p.published_at < to_timestamp(:edgeItemTime)',
     );
   }
 

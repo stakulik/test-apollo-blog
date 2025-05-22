@@ -10,15 +10,14 @@ import {
 
 import { CreateUserParams } from './typings';
 import { CrudService } from './crud.service';
-
-const saltLength = 10;
+import { saltLength } from './shared';
 
 export class UserService extends CrudService {
   constructor() {
     super(new UserRepository());
   }
 
-  async create<M = User>(data: CreateUserParams, options: QueryOptions = {}): Promise<M> {
+  async create<M = User | null>(data: CreateUserParams, options: QueryOptions = {}): Promise<M | null> {
     const encodedPassword = await bcrypt.hash(data.password, saltLength);
 
     return this.repository.create({ ...data, password: encodedPassword }, options);

@@ -13,7 +13,7 @@ export class AuthTokenService extends CrudService {
     super(new AuthTokenRepository());
   }
 
-  async create<M = AuthToken>(data: CreateAuthTokenParams, options: QueryOptions = {}): Promise<M> {
+  async create<M = AuthToken | null>(data: CreateAuthTokenParams, options: QueryOptions = {}): Promise<M | null> {
     const { user } = data;
 
     const payload = { user_data: { email: user.email } };

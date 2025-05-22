@@ -1,12 +1,8 @@
 import type { GraphQLResolveInfo } from 'graphql';
 
-import { IncomingRequestContext } from '../../lib/shared';
-
-import { ResolverParams } from './resolver-params.interface';
-
 export type AsyncResolver = (
   parent: unknown,
-  params: ResolverParams,
-  context: IncomingRequestContext,
+  params: any,
+  context: any,
   info: GraphQLResolveInfo
 ) => Promise<unknown>;

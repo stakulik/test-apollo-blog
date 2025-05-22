@@ -1,20 +1,16 @@
-import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 
-import { IncomingRequestContext } from '../lib/shared';
-import { appConfig, GQLSchema } from '../config';
-import { resolvers } from '../resolvers';
+import { appConfig } from '../config';
 import { Auth } from '../auth';
 
-export async function startServer() {
-  const server = new ApolloServer({
-    typeDefs: GQLSchema,
-    resolvers,
-  });
+import { createServer } from './create-server';
+
+export const startServer = async () => {
+  const server = createServer();
 
   const { url } = await startStandaloneServer(server, {
     listen: { port: appConfig.server.port },
-    context: async ({ req }): Promise<IncomingRequestContext> => {
+    context: async ({ req }) => {
       const userData = await new Auth(req).getAuthData();
 
       return {
@@ -25,4 +21,4 @@ export async function startServer() {
   });
 
   console.log(`🚀  Server ready at: ${url}`);
-}
+};
