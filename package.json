@@ -3,13 +3,16 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "type": "commonjs",
   "scripts": {
     "build": "yarn clean && tsc -p .",
     "clean": "rm -rf dist",
     "lint": "eslint . --ext .js,.ts",
     "migrate": "sequelize-cli db:migrate",
     "migrate:undo": "sequelize-cli db:migrate:undo",
-    "start:api": "node ./dist/index.js"
+    "start:api": "node ./dist/index.js",
+    "test": "NODE_ENV=test mocha",
+    "test:db:recreate": "( export NODE_ENV=test; yarn sequelize db:drop && yarn sequelize db:create && yarn sequelize db:migrate )"
   },
   "engines": {
     "node": "20.5.1"
@@ -28,21 +31,31 @@
     "sequelize": "6.37.5"
   },
   "devDependencies": {
+    "@faker-js/faker": "9.8.0",
     "@types/bcryptjs": "3.0.0",
+    "@types/chai": "4.3.10",
+    "@types/chai-as-promised": "7.1.8",
+    "@types/factory-girl": "5.0.12",
     "@types/graphql": "14.5.0",
     "@types/graphql-resolve-batch": "1.1.11",
     "@types/jsonwebtoken": "9.0.9",
     "@types/lodash": "4.17.15",
+    "@types/mocha": "10.0.10",
     "@types/node": "22.13.4",
     "@types/sequelize": "4.28.20",
     "@typescript-eslint/eslint-plugin": "6.4.0",
     "@typescript-eslint/parser": "6.4.0",
+    "chai": "4.3.10",
+    "chai-as-promised": "7.1.1",
     "eslint": "8.47.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-config-airbnb-typescript": "17.1.0",
     "eslint-import-resolver-typescript": "3.6.0",
     "eslint-plugin-import": "2.28.1",
+    "factory-girl": "5.0.4",
+    "mocha": "10.2.0",
     "sequelize-cli": "6.6.2",
-    "typescript": "5.7.3"
+    "ts-node": "10.9.1",
+    "typescript": "5.1.6"
   }
 }
