@@ -12,6 +12,8 @@ RUN mkdir /app -p && \
 
 WORKDIR /app
 
+USER node
+
 COPY package.json /app/package.json
 
 EXPOSE 4000

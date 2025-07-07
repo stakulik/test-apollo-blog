@@ -13,6 +13,7 @@ services:
       - "127.0.0.1:4000:4000"
     depends_on:
       - postgres
+    user: node
     volumes:
       - ./:/app
 
@@ -26,4 +27,4 @@ services:
       POSTGRES_USER: $DATABASE_USERNAME
       POSTGRES_HOST_AUTH_METHOD: "trust"
     volumes:
-      - ./postgres/main:/var/lib/postgresql/data
+      - ./postgres:/var/lib/postgresql/data
