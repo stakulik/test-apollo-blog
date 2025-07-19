@@ -4,7 +4,7 @@ import {
   QueryOptions,
 } from '../repositories';
 
-import { generateJWT } from './shared';
+import { compareHashes, generateJWT, getHash } from './shared';
 import { CrudService } from './crud.service';
 import { CreateAuthTokenParams } from './typings';
 
@@ -20,6 +20,24 @@ export class AuthTokenService extends CrudService {
 
     const token = generateJWT(payload);
 
-    return this.repository.create({ user_id: user.id, token }, options);
+    const hashedToken = await getHash(token);
+
+    await this.repository.create<AuthToken>({ user_id: user.id, token: hashedToken }, options);
+
+    return { token } as unknown as M;
+  }
+
+  async validateToken(token: string, userId: string): Promise<boolean> {
+    const authTokens = await this.find<AuthToken>({ user_id: userId });
+
+    for (const authToken of authTokens) {
+      const isValid = await compareHashes(token, authToken.token);
+
+      if (isValid) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

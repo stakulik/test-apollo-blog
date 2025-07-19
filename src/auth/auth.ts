@@ -2,12 +2,13 @@ import * as authentication from 'auth-header';
 import type { IncomingMessage } from 'http';
 
 import { User } from '../models';
-import { UserService } from '../services';
+import { AuthTokenService, UserService } from '../services';
 import { UserData } from '../lib/shared';
 
 import { parseJWT } from './shared';
 
 const userService = new UserService();
+const authTokenService = new AuthTokenService();
 
 export class Auth {
   request: IncomingMessage;
@@ -33,11 +34,17 @@ export class Auth {
 
     const user = await userService.getByCriteria<User>({ email });
 
-    if (user) {
-      return { user };
+    if (!user) {
+      return null;
     }
 
-    return null;
+    const isTokenValid = await authTokenService.validateToken(token, user.id);
+
+    if (!isTokenValid) {
+      return null;
+    }
+
+    return { user };
   }
 
   private getTokenFromHeader(

@@ -1,4 +1,3 @@
-import bcrypt from 'bcryptjs';
 import { Op } from 'sequelize';
 
 import { User } from '../models';
@@ -10,7 +9,7 @@ import {
 
 import { CreateUserParams } from './typings';
 import { CrudService } from './crud.service';
-import { saltLength } from './shared';
+import { compareHashes, getHash } from './shared';
 
 export class UserService extends CrudService {
   constructor() {
@@ -18,15 +17,15 @@ export class UserService extends CrudService {
   }
 
   async create<M = User | null>(data: CreateUserParams, options: QueryOptions = {}): Promise<M | null> {
-    const encodedPassword = await bcrypt.hash(data.password, saltLength);
+    const hashedPassword = await getHash(data.password);
 
-    return this.repository.create({ ...data, password: encodedPassword }, options);
+    return this.repository.create({ ...data, password: hashedPassword }, options);
   }
 
   async isCredentialsCorrect(user: User, data: Pick<CreateUserParams, 'password'>): Promise<boolean> {
     const { password } = data;
 
-    return bcrypt.compare(password, user.password);
+    return compareHashes(password, user.password);
   }
 
   async isCredentialsTaken(

@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
 import { CursorPayload, ListPostsParams } from '../../typings';
+import { defaultPageSize } from '../constants';
 
-import { defaultPageSize } from './default-page-size.constants';
 import { PaginationCursor } from './pagination-cursor';
 
 const decodeCursor = (
