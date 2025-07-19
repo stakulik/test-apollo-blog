@@ -25,6 +25,12 @@ export class CrudRepository extends CoreRepository {
     return this.model.create(data, queryOptions) as Promise<M | null>;
   }
 
+  async delete(id: string, options: QueryOptions): Promise<number> {
+    const queryOptions = filterQueryOptions(options);
+
+    return this.model.destroy({ where: { id }, ...queryOptions });
+  }
+
   async find<M>(conditions: FindConditions, options: QueryOptions): Promise<M[]> {
     const queryOptions = filterQueryOptions(options);
 

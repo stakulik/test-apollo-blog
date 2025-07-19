@@ -1,5 +1,6 @@
 import { User } from '../models';
-import { parseJWT } from '../auth/shared';
+import { parseJWT, parseJWTIgnoreExpiration } from '../auth/shared';
+import { appConfig } from '../config';
 
 import { SignInParams, SignInResult } from './typings';
 import { AuthTokenService } from './auth-token.service';
@@ -62,5 +63,36 @@ export class AuthService {
     }
 
     return user;
+  }
+
+  async signOut(token: string): Promise<boolean> {
+    try {
+      let user = await this.validateToken(token);
+
+      if (!user) {
+        const payload = parseJWTIgnoreExpiration(token);
+
+        if (payload && payload.user_data?.email) {
+          const { email } = payload.user_data;
+          user = await userService.getByCriteria<User>({ email });
+        }
+      }
+
+      if (!user) {
+        return false;
+      }
+
+      const tokenId = await authTokenService.findCurrentTokenId(token, user.id);
+
+      if (!tokenId) {
+        return false;
+      }
+
+      await authTokenService.delete(tokenId, {});
+
+      return true;
+    } catch {
+      return false;
+    }
   }
 }

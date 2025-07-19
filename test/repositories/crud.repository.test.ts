@@ -73,6 +73,29 @@ describe(__filename, () => {
     });
   });
 
+  describe('#delete', () => {
+    const runTest = async (id, options = {}) => postRepository.delete(id, options);
+
+    it('should delete instance', async () => {
+      const post = await factory.create<Post>('Post');
+
+      const result = await runTest(post.id);
+
+      expect(result).to.be;
+
+      const deletedPost = await postRepository.getById(post.id);
+      expect(deletedPost).to.be.null;
+    });
+
+    context('when record does not exist', () => {
+      it('should return 0', async () => {
+        const result = await runTest(faker.string.uuid());
+
+        expect(result).to.eql(0);
+      });
+    });
+  });
+
   describe('#getByCriteria', () => {
     beforeEach(async () => {
       await factory.create<Post>('Post');

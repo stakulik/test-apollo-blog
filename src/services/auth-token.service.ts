@@ -40,4 +40,18 @@ export class AuthTokenService extends CrudService {
 
     return false;
   }
+
+  async findCurrentTokenId(token: string, userId: string): Promise<string | null> {
+    const authTokens = await this.find<AuthToken>({ user_id: userId });
+
+    for (const authToken of authTokens) {
+      const isCurrent = await compareHashes(token, authToken.token);
+
+      if (isCurrent) {
+        return authToken.id;
+      }
+    }
+
+    return null;
+  }
 }

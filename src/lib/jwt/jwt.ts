@@ -19,6 +19,17 @@ class JWT {
       return null;
     }
   }
+
+  static parseIgnoreExpiration(
+    token: string,
+    secret: jwt.Secret,
+  ): string | JwtPayload | null {
+    try {
+      return jwt.verify(token, secret, { ignoreExpiration: true });
+    } catch (err) {
+      return null;
+    }
+  }
 }
 
 export default JWT;

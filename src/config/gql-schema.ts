@@ -44,6 +44,8 @@ export const GQLSchema = `
       password: String!
     ): String
 
+    signOut: Boolean!
+
     signUp(
       email: String!
       nickname: String!

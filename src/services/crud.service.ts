@@ -31,6 +31,10 @@ export class CrudService extends CoreService {
     return this.repository.create(data, options);
   }
 
+  async delete(id: string, options: QueryOptions = {}): Promise<number> {
+    return this.repository.delete(id, options);
+  }
+
   async find<M>(conditions: FindConditions, options: QueryOptions = {}): Promise<M[]> {
     return this.repository.find(conditions, options);
   }

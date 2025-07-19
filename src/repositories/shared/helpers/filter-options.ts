@@ -6,8 +6,14 @@ export const filterOptions = (
 ): Record<string, unknown> => {
   const accumulator = {};
 
+  if (!source) {
+    return accumulator;
+  }
+
   for (const node of optionsNodes) {
-    accumulator[node] = source[node];
+    if (Object.prototype.hasOwnProperty.call(source, node)) {
+      accumulator[node] = source[node];
+    }
   }
 
   return accumulator;
