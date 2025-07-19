@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { factory } from 'factory-girl';
+import { faker } from '@faker-js/faker';
 import _ from 'lodash';
 
 import { createServer } from '../../../src/server';
@@ -28,7 +29,7 @@ describe(__filename, () => {
 
   beforeEach(async () => {
     creationAttributes = await factory.attrs<User>('User', {
-      password: 'some-password',
+      password: faker.lorem.word(),
     });
 
     executionContext = buildExecutionContext(null, {});

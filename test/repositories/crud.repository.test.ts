@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { faker } from '@faker-js/faker';
 import { factory } from 'factory-girl';
+import { faker } from '@faker-js/faker';
 
 import { Post, User } from '../../src/models';
 import { sequelize } from '../../src/db';

@@ -1,14 +1,10 @@
 import * as authentication from 'auth-header';
 import type { IncomingMessage } from 'http';
 
-import { User } from '../models';
-import { AuthTokenService, UserService } from '../services';
+import { AuthService } from '../services';
 import { UserData } from '../lib/shared';
 
-import { parseJWT } from './shared';
-
-const userService = new UserService();
-const authTokenService = new AuthTokenService();
+const authService = new AuthService();
 
 export class Auth {
   request: IncomingMessage;
@@ -20,27 +16,13 @@ export class Auth {
   private async getAuthDataFromToken(
     token: string | null,
   ): Promise<UserData | null> {
-    if (typeof token !== 'string') {
+    if (!token) {
       return null;
     }
 
-    const payload = parseJWT(token);
-
-    if (!payload) {
-      return null;
-    }
-
-    const email = payload?.user_data?.email;
-
-    const user = await userService.getByCriteria<User>({ email });
+    const user = await authService.validateToken(token);
 
     if (!user) {
-      return null;
-    }
-
-    const isTokenValid = await authTokenService.validateToken(token, user.id);
-
-    if (!isTokenValid) {
       return null;
     }
 

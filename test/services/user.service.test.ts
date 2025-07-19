@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { expect } from 'chai';
 import { factory } from 'factory-girl';
+import { faker } from '@faker-js/faker';
 
 import { User } from '../../src/models';
 import { sequelize } from '../../src/db';
@@ -19,7 +20,7 @@ describe(__filename, () => {
     const runTest = async (data) => userService.create(data);
 
     it('should create instance', async () => {
-      const password = 'some-password';
+      const password = faker.lorem.word();
       const creationAttributes = await factory.attrs('User', {
         password,
       });

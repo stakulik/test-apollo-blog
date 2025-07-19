@@ -4,3 +4,5 @@ export * from './cursor-payload.interface';
 export * from './list-posts-params.interface';
 export * from './list-posts-result.interface';
 export * from './post-list-item.interface';
+export * from './sign-in-params.interface';
+export * from './sign-in-result.interface';

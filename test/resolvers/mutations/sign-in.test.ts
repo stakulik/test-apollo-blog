@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { factory } from 'factory-girl';
+import { faker } from '@faker-js/faker';
 import _ from 'lodash';
 
 import { createServer } from '../../../src/server';
@@ -28,7 +29,7 @@ describe(__filename, () => {
 
   beforeEach(async () => {
     const creationAttributes = await factory.attrs<User>('User', {
-      password: 'some-password',
+      password: faker.lorem.word(),
     });
 
     userService = new UserService();
@@ -51,7 +52,7 @@ describe(__filename, () => {
 
   context('when wrong email', () => {
     it('should return null', async () => {
-      const result = await runQuery({ ...variables, email: 'ad@ir.ex' }, executionContext);
+      const result = await runQuery({ ...variables, email: faker.internet.email() }, executionContext);
 
       expect(result.body.singleResult.data.signIn).to.be.null;
     });
@@ -59,7 +60,7 @@ describe(__filename, () => {
 
   context('when wrong password', () => {
     it('should return null', async () => {
-      const result = await runQuery({ ...variables, password: '000' }, executionContext);
+      const result = await runQuery({ ...variables, password: faker.lorem.word() }, executionContext);
 
       expect(result.body.singleResult.data.signIn).to.be.null;
     });
