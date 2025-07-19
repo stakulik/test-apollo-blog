@@ -11,6 +11,7 @@
     "migrate": "sequelize-cli db:migrate",
     "migrate:undo": "sequelize-cli db:migrate:undo",
     "start:api": "node ./dist/index.js",
+    "start:api:debug": "node --inspect=0.0.0.0:9229 ./dist/index.js",
     "test": "NODE_ENV=test mocha",
     "test:db:recreate": "( export NODE_ENV=test; yarn sequelize db:drop && yarn sequelize db:create && yarn sequelize db:migrate )"
   },

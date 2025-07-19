@@ -1,6 +1,7 @@
 version: '3'
 services:
   app:
+    container_name: test-apollo-blog-app
     tty: true
     stdin_open: true
     build:
@@ -11,6 +12,7 @@ services:
     image: apollo-blog
     ports:
       - "127.0.0.1:4000:4000"
+      - "127.0.0.1:9229:9229"
     depends_on:
       - postgres
     user: node
@@ -18,6 +20,7 @@ services:
       - ./:/app
 
   postgres:
+    container_name: test-apollo-blog-postgres
     ports:
       - "127.0.0.1:5432:5432"
     image: postgres:15.4
