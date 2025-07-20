@@ -1,6 +1,5 @@
 import { User } from '../models';
 import { parseJWT, parseJWTIgnoreExpiration } from '../auth/shared';
-import { appConfig } from '../config';
 
 import { SignInParams, SignInResult } from './typings';
 import { AuthTokenService } from './auth-token.service';

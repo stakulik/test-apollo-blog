@@ -6,6 +6,7 @@ import _ from 'lodash';
 import { createServer } from '../../../src/server';
 import { User } from '../../../src/models';
 import { UserService,  } from '../../../src/services';
+import { sanitizeEmail } from '../../../src/resolvers/shared';
 import {
   buildExecutionContext,
   executeServerOperation,
@@ -53,7 +54,8 @@ describe(__filename, () => {
   it('should create user', async () => {
     await runQuery(variables, executionContext);
 
-    const user = await userService.getByCriteria({ email: creationAttributes.email });
+    const sanitizedEmail = sanitizeEmail(creationAttributes.email);
+    const user = await userService.getByCriteria({ email: sanitizedEmail });
     expect(user).to.exist;
   });
 

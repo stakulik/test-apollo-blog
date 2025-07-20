@@ -1,6 +1,6 @@
 import { throwUserInputError } from '../../lib/gql';
 import { AuthService } from '../../services';
-import { isEmail, isValidForPassword } from '../shared';
+import { isEmail, isValidForPassword, sanitizeEmail } from '../shared';
 import { SignIn } from '../typings';
 
 const authService = new AuthService();
@@ -23,7 +23,12 @@ const signInMutation = async (
 ): Promise<string | null> => {
   await validate(params);
 
-  const result = await authService.signIn(params);
+  const sanitizedParams = {
+    ...params,
+    email: sanitizeEmail(params.email),
+  };
+
+  const result = await authService.signIn(sanitizedParams);
 
   return result?.token || null;
 };

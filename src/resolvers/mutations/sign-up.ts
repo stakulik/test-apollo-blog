@@ -1,6 +1,6 @@
 import { throwUserInputError } from '../../lib/gql';
 import { UserService } from '../../services';
-import { isEmail } from '../shared';
+import { isEmail, sanitizeEmail } from '../shared';
 import { SignUp } from '../typings';
 
 const userService = new UserService();
@@ -8,11 +8,21 @@ const userService = new UserService();
 const validate = async (params: SignUp): Promise<void> => {
   const { email, nickname } = params;
 
-  if (!isEmail(email)) {
+  const sanitizedEmail = sanitizeEmail(email);
+  const sanitizedNickname = nickname.trim();
+
+  if (!isEmail(sanitizedEmail)) {
     throwUserInputError('Email has wrong value', 'email');
   }
 
-  const isCredentialsTaken = await userService.isCredentialsTaken({ email, nickname });
+  if (!nickname || typeof nickname !== 'string' || sanitizedNickname.length === 0) {
+    throwUserInputError('Nickname is required', 'nickname');
+  }
+
+  const isCredentialsTaken = await userService.isCredentialsTaken({
+    email: sanitizedEmail,
+    nickname: sanitizedNickname,
+  });
 
   if (isCredentialsTaken) {
     throwUserInputError('Email or nickname has already been taken');
@@ -25,7 +35,13 @@ const signUpMutation = async (
 ): Promise<boolean> => {
   await validate(params);
 
-  const result = await userService.create(params);
+  const sanitizedParams = {
+    ...params,
+    email: sanitizeEmail(params.email),
+    nickname: params.nickname.trim(),
+  };
+
+  const result = await userService.create(sanitizedParams);
 
   return !!result;
 };
