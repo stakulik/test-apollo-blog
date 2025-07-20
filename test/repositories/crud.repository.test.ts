@@ -31,6 +31,7 @@ describe(__filename, () => {
 
       expect(
         omitCommonAttributes(result.toJSON(), ['published_at'],)).to.eql({
+          moderated_at: null,
           ...omitCommonAttributes(creationAttributes, ['published_at']),
         });
       expect(result.created_at).to.be.within(startTime, finishTime);

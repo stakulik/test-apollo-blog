@@ -10,6 +10,7 @@ export class Post
   declare published_at: Date;
   declare title: string;
   declare user_id: string;
+  declare moderated_at: Date;
 
   static initialize() {
     this.init({
@@ -35,6 +36,9 @@ export class Post
       user_id: {
         type: DataTypes.UUID,
         allowNull: false,
+      },
+      moderated_at: {
+        type: DataTypes.DATE,
       },
     }, modelInitOptions);
 

@@ -1,6 +1,7 @@
 import { throwUserInputError } from '../../lib/gql';
 import { Post } from '../../models';
 import { PostService } from '../../services';
+import { addModerationJob } from '../../queues';
 import { authRequest, getUserFromContext } from '../shared';
 import { AuthedResolverContext, CreatePost } from '../typings';
 
@@ -23,7 +24,13 @@ const createPostMutation = async (
 
   const user = getUserFromContext(context);
 
-  return postService.create({ ...params, user_id: user.id });
+  const post = await postService.create<Post>({ ...params, user_id: user.id });
+
+  if (post) {
+    await addModerationJob(post.id);
+  }
+
+  return post;
 };
 
 export const createPost = authRequest(createPostMutation);

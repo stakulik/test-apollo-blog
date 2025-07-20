@@ -2,9 +2,11 @@ import { expect } from 'chai';
 import { factory } from 'factory-girl';
 import { faker } from '@faker-js/faker';
 import _ from 'lodash';
+import sinon from 'sinon';
 
 import { createServer } from '../../../src/server';
 import { AuthToken, User } from '../../../src/models';
+import { postsQueue } from '../../../src/queues';
 import {
   buildExecutionContext,
   buildRequestObject,
@@ -34,6 +36,7 @@ describe(__filename, () => {
   let request;
   let executionContext;
   let variables;
+  let addJobStub;
 
   beforeEach(async () => {
     user = await factory.create<User>('User');
@@ -52,7 +55,13 @@ describe(__filename, () => {
       title: faker.lorem.sentence(),
       body: faker.lorem.sentence(),
       publishedAt: '2025-05-22T12:46:27.081Z'
-    }
+    };
+
+    addJobStub = sinon.stub(postsQueue, 'add').resolves();
+  });
+
+  afterEach(() => {
+    sinon.restore();
   });
 
   it('should create post', async () => {
@@ -68,6 +77,14 @@ describe(__filename, () => {
       }
     });
     expect(requestResult.errors).to.be.undefined;
+  });
+
+  it('should queue moderation job when post is created', async () => {
+    const result = await runQuery(variables, executionContext);
+
+    const requestResult = result.body.singleResult;
+    expect(requestResult.errors).to.be.undefined;
+    expect(addJobStub.calledOnce).to.be.true;
   });
 
   context('when title is empty', () => {

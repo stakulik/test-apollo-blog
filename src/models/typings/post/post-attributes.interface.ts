@@ -5,4 +5,5 @@ export interface PostAttributes extends DefaultAttributes {
   published_at: Date;
   title: string;
   user_id: string;
+  moderated_at: Date;
 }
