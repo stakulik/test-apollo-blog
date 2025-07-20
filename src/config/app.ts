@@ -34,4 +34,7 @@ export default {
   server: {
     port: Number.parseInt((process.env.PORT || '4000'), 10),
   },
+  redis: {
+    url: process.env.REDIS_URL,
+  },
 };
